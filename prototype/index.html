@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice to Value — USSD Simulator</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- Header -->
+    <header class="hero-header">
+        <div class="logo">
+            <span class="logo-icon">🌾</span>
+            <span class="logo-text">Voice <span class="accent">to</span> Value</span>
+        </div>
+        <p class="tagline">Turn a farmer's voice into financial power</p>
+    </header>
+
+    <!-- Main Layout -->
+    <main class="app-layout">
+        <!-- Left Panel: Journey & Info -->
+        <aside class="info-panel">
+            <div class="panel-card journey-card">
+                <h3>📍 User Journey</h3>
+                <div class="journey-steps" id="journeySteps">
+                    <div class="step active" data-step="welcome">
+                        <div class="step-dot"></div>
+                        <span>Welcome</span>
+                    </div>
+                    <div class="step" data-step="language">
+                        <div class="step-dot"></div>
+                        <span>Language</span>
+                    </div>
+                    <div class="step" data-step="register">
+                        <div class="step-dot"></div>
+                        <span>Register</span>
+                    </div>
+                    <div class="step" data-step="main">
+                        <div class="step-dot"></div>
+                        <span>Main Menu</span>
+                    </div>
+                    <div class="step" data-step="credit">
+                        <div class="step-dot"></div>
+                        <span>Credit Score</span>
+                    </div>
+                    <div class="step" data-step="loan">
+                        <div class="step-dot"></div>
+                        <span>Apply Loan</span>
+                    </div>
+                    <div class="step" data-step="advisory">
+                        <div class="step-dot"></div>
+                        <span>Farm Advisory</span>
+                    </div>
+                    <div class="step" data-step="blockchain">
+                        <div class="step-dot"></div>
+                        <span>Blockchain ID</span>
+                    </div>
+                    <div class="step" data-step="cropdoctor">
+                        <div class="step-dot"></div>
+                        <span>🩺 Crop Doctor</span>
+                    </div>
+                    <div class="step" data-step="trustnet">
+                        <div class="step-dot"></div>
+                        <span>🌐 Trust Network</span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-card stats-card">
+                <h3>📊 Live Stats</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Language</span>
+                    <span class="stat-value" id="statLang">English</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Credit Score</span>
+                    <span class="stat-value" id="statCredit">—</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Loan Status</span>
+                    <span class="stat-value" id="statLoan">—</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Blockchain TX</span>
+                    <span class="stat-value tx-hash" id="statTx">—</span>
+                </div>
+            </div>
+            <div class="panel-card">
+                <h3>♿ Accessibility</h3>
+                <label class="toggle-row">
+                    <span>Voice Output (TTS)</span>
+                    <input type="checkbox" id="ttsToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+                <label class="toggle-row">
+                    <span>Haptic Feedback</span>
+                    <input type="checkbox" id="hapticToggle" checked>
+                    <span class="toggle-slider"></span>
+                </label>
+                <label class="toggle-row">
+                    <span>High Contrast</span>
+                    <input type="checkbox" id="contrastToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Center: Phone Simulator -->
+        <section class="phone-section">
+            <div class="phone-frame">
+                <div class="phone-notch"></div>
+                <div class="phone-screen" id="phoneScreen">
+                    <!-- USSD screens are rendered here by JS -->
+                    <div class="ussd-screen active" id="screen-welcome">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <div class="ussd-title-art">🌾 VOICE TO VALUE 🌾</div>
+                            <p class="ussd-text">Welcome to Voice to Value — your voice is your financial identity.</p>
+                            <p class="ussd-text mt">Dial *347*88# or press 1 to begin.</p>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. Start / Fara / Bẹ̀rẹ̀</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="welcome"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="welcome">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-language">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text">Choose your language / Zaɓi harshenka:</p>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. English</div>
+                                <div class="ussd-option">2. Hausa (هَوْسَ)</div>
+                                <div class="ussd-option">3. Yoruba (Yorùbá)</div>
+                                <div class="ussd-option">4. Igbo</div>
+                                <div class="ussd-option">5. Twi</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="language"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="language">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-register">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="registerText">Register with your voice. Press the microphone button
+                                and say your name.</p>
+                            <div class="voice-indicator" id="voiceRegister">
+                                <div class="voice-ring"></div>
+                                <div class="voice-ring"></div>
+                                <div class="voice-ring"></div>
+                                <span class="voice-icon">🎙️</span>
+                            </div>
+                            <p class="ussd-text voice-status" id="voiceStatus">Tap microphone to speak</p>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. Confirm registration</div>
+                                <div class="ussd-option">0. Back</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Type name or option..."
+                                data-screen="register" maxlength="25">
+                            <button class="ussd-send" data-screen="register">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-main">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="mainGreeting">Welcome, Farmer! What would you like to do?</p>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. 📊 Check Credit Score</div>
+                                <div class="ussd-option">2. 💰 Apply for Loan</div>
+                                <div class="ussd-option">3. 🌱 Farm Advisory</div>
+                                <div class="ussd-option">4. 🔗 View Blockchain ID</div>
+                                <div class="ussd-option">5. 🩺 Crop Doctor (AI)</div>
+                                <div class="ussd-option">6. 🌐 Trust Network</div>
+                                <div class="ussd-option">0. Exit</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option or type..."
+                                data-screen="main" maxlength="20">
+                            <button class="ussd-send" data-screen="main">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-credit">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="creditTitle">📊 Your Credit Score</p>
+                            <div class="credit-display">
+                                <div class="credit-ring" id="creditRing">
+                                    <svg viewBox="0 0 120 120">
+                                        <circle class="credit-bg" cx="60" cy="60" r="50" />
+                                        <circle class="credit-progress" cx="60" cy="60" r="50" id="creditArc" />
+                                    </svg>
+                                    <div class="credit-number" id="creditNumber">0</div>
+                                </div>
+                                <p class="credit-label" id="creditLabel">Calculating...</p>
+                            </div>
+                            <div class="credit-factors" id="creditFactors">
+                                <div class="factor"><span>🌾 Planting</span><span class="factor-bar"><span
+                                            style="width:85%"></span></span></div>
+                                <div class="factor"><span>💧 Inputs</span><span class="factor-bar"><span
+                                            style="width:70%"></span></span></div>
+                                <div class="factor"><span>🤝 Community</span><span class="factor-bar"><span
+                                            style="width:90%"></span></span></div>
+                                <div class="factor"><span>📈 History</span><span class="factor-bar"><span
+                                            style="width:60%"></span></span></div>
+                            </div>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. Apply for loan</div>
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="credit"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="credit">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-loan">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="loanTitle">💰 Loan Application</p>
+                            <div class="loan-info" id="loanInfo">
+                                <p>Based on your credit score, you qualify for:</p>
+                                <div class="loan-amount" id="loanAmount">₦ 75,000</div>
+                                <p class="loan-detail">Interest: 5% flat | Duration: 6 months</p>
+                                <p class="loan-detail">Repayment: ₦ 13,125/month</p>
+                                <p class="loan-detail">Disbursement: Mobile wallet (OPay)</p>
+                            </div>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. ✅ Accept loan</div>
+                                <div class="ussd-option">2. 🔄 Different amount</div>
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="loan"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="loan">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-loan-confirm">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text">✅ Loan Approved!</p>
+                            <div class="loan-success">
+                                <div class="success-animation">
+                                    <div class="checkmark-circle">
+                                        <span class="checkmark">✓</span>
+                                    </div>
+                                </div>
+                                <p class="loan-detail">₦ 75,000 sent to your OPay wallet</p>
+                                <p class="loan-detail">TX: <span class="tx-mono" id="loanTxHash">0x7a3f...e91b</span>
+                                </p>
+                                <p class="loan-detail">Recorded on blockchain ✅</p>
+                            </div>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. View blockchain receipt</div>
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..."
+                                data-screen="loan-confirm" maxlength="2">
+                            <button class="ussd-send" data-screen="loan-confirm">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-advisory">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="advisoryTitle">🌱 Farm Advisory</p>
+                            <div class="advisory-cards" id="advisoryCards">
+                                <div class="advisory-card plant">
+                                    <div class="advisory-icon">🌾</div>
+                                    <div class="advisory-info">
+                                        <strong>Plant Millet</strong>
+                                        <p>Best window: 3 days from now</p>
+                                        <p>Rain expected: 85% chance</p>
+                                    </div>
+                                </div>
+                                <div class="advisory-card water">
+                                    <div class="advisory-icon">💧</div>
+                                    <div class="advisory-info">
+                                        <strong>Irrigate Cowpea</strong>
+                                        <p>Soil moisture: Low (23%)</p>
+                                        <p>Recommended: 15L per row</p>
+                                    </div>
+                                </div>
+                                <div class="advisory-card harvest">
+                                    <div class="advisory-icon">🌤️</div>
+                                    <div class="advisory-info">
+                                        <strong>Weather Alert</strong>
+                                        <p>Dry spell in 10 days</p>
+                                        <p>Plan harvest accordingly</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. Hear advice by voice</div>
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="advisory"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="advisory">Send</button>
+                        </div>
+                    </div>
+
+                    <div class="ussd-screen" id="screen-blockchain">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text">🔗 Your Blockchain Credit Identity</p>
+                            <div class="blockchain-display">
+                                <div class="chain-block" id="block1">
+                                    <div class="block-header">Block #1</div>
+                                    <div class="block-content">Registration<br><span
+                                            class="block-date">2026-01-15</span></div>
+                                    <div class="block-hash">0x8f2a...c3d1</div>
+                                </div>
+                                <div class="chain-link">⟶</div>
+                                <div class="chain-block" id="block2">
+                                    <div class="block-header">Block #2</div>
+                                    <div class="block-content">Credit Score: 720<br><span
+                                            class="block-date">2026-01-20</span></div>
+                                    <div class="block-hash">0x3b7e...a92f</div>
+                                </div>
+                                <div class="chain-link">⟶</div>
+                                <div class="chain-block" id="block3">
+                                    <div class="block-header">Block #3</div>
+                                    <div class="block-content">Loan: ₦75,000<br><span
+                                            class="block-date">2026-02-10</span></div>
+                                    <div class="block-hash">0x7a3f...e91b</div>
+                                </div>
+                            </div>
+                            <p class="ussd-text mt chain-note">Your credit history is immutable, portable, and owned by
+                                you.</p>
+                            <div class="ussd-options">
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="blockchain"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="blockchain">Send</button>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN: CROP DOCTOR (AI Voice Diagnosis) -->
+                    <div class="ussd-screen" id="screen-cropdoctor">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="cropDoctorTitle">🩺 Voice Crop Doctor</p>
+                            <p class="ussd-text" style="font-size:10px;opacity:0.7;margin-top:4px;"
+                                id="cropDoctorSubtitle">Describe your crop symptoms by voice or choose below:</p>
+                            <div class="voice-indicator" id="voiceCropDoctor">
+                                <div class="voice-ring"></div>
+                                <div class="voice-ring"></div>
+                                <div class="voice-ring"></div>
+                                <span class="voice-icon">🩺</span>
+                            </div>
+                            <p class="ussd-text voice-status" id="cropVoiceStatus">Tap to describe symptoms</p>
+                            <div class="crop-diagnosis" id="cropDiagnosis" style="display:none;">
+                                <div class="diagnosis-header">
+                                    <span class="diagnosis-icon" id="diagIcon">⚠️</span>
+                                    <span class="diagnosis-title" id="diagTitle">Analyzing...</span>
+                                </div>
+                                <div class="diagnosis-confidence">
+                                    <span>AI Confidence:</span>
+                                    <div class="confidence-bar"><span id="confBar" style="width:0%"></span></div>
+                                    <span id="confPct">0%</span>
+                                </div>
+                                <div class="diagnosis-details" id="diagDetails"></div>
+                                <div class="diagnosis-treatment" id="diagTreatment"></div>
+                            </div>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. 🟡 Yellow leaves</div>
+                                <div class="ussd-option">2. 🟤 Brown spots</div>
+                                <div class="ussd-option">3. 🐛 Pest damage</div>
+                                <div class="ussd-option">4. 🥀 Wilting plants</div>
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option or type..."
+                                data-screen="cropdoctor" maxlength="30">
+                            <button class="ussd-send" data-screen="cropdoctor">Send</button>
+                        </div>
+                    </div>
+
+                    <!-- SCREEN: TRUST NETWORK (Social Collateral Graph) -->
+                    <div class="ussd-screen" id="screen-trustnet">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="trustNetTitle">🌐 Community Trust Network</p>
+                            <p class="ussd-text" style="font-size:10px;opacity:0.7;margin-top:4px;">Your social
+                                collateral — who vouches for you</p>
+                            <div class="trust-graph-container">
+                                <canvas id="trustCanvas" width="300" height="220"></canvas>
+                            </div>
+                            <div class="trust-stats">
+                                <div class="trust-stat">
+                                    <span class="trust-stat-num" id="trustVouchers">0</span>
+                                    <span class="trust-stat-label">Vouchers</span>
+                                </div>
+                                <div class="trust-stat">
+                                    <span class="trust-stat-num" id="trustVouched">0</span>
+                                    <span class="trust-stat-label">Vouched For</span>
+                                </div>
+                                <div class="trust-stat">
+                                    <span class="trust-stat-num" id="trustScore">0</span>
+                                    <span class="trust-stat-label">Trust Score</span>
+                                </div>
+                            </div>
+                            <div class="trust-members" id="trustMembers"></div>
+                            <div class="ussd-options">
+                                <div class="ussd-option">1. Request new voucher</div>
+                                <div class="ussd-option">2. Vouch for someone</div>
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Enter option..." data-screen="trustnet"
+                                maxlength="2">
+                            <button class="ussd-send" data-screen="trustnet">Send</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Voice FAB -->
+                <button class="voice-fab" id="voiceFab" title="Speak a command">
+                    <span class="fab-icon">🎙️</span>
+                    <span class="fab-pulse"></span>
+                </button>
+            </div>
+
+            <!-- Controls below phone -->
+            <div class="phone-controls">
+                <button class="ctrl-btn" id="btnDemo" title="Auto-play demo">
+                    <span>▶️</span> Demo Mode
+                </button>
+                <button class="ctrl-btn" id="btnReset" title="Reset simulator">
+                    <span>🔄</span> Reset
+                </button>
+            </div>
+        </section>
+
+        <!-- Right Panel: Event Log -->
+        <aside class="info-panel right-panel">
+            <div class="panel-card log-card">
+                <h3>📜 Event Log</h3>
+                <div class="event-log" id="eventLog">
+                    <div class="log-entry system">System initialized. Waiting for input...</div>
+                </div>
+            </div>
+            <div class="panel-card">
+                <h3>🌐 Voice Commands</h3>
+                <div class="voice-commands">
+                    <div class="cmd">"Check my score"</div>
+                    <div class="cmd">"I want a loan"</div>
+                    <div class="cmd">"Farm advice"</div>
+                    <div class="cmd">"Show my blockchain"</div>
+                    <div class="cmd">"My crops are sick"</div>
+                    <div class="cmd">"Trust network"</div>
+                    <div class="cmd">"Go back"</div>
+                    <div class="cmd">"Hausa" / "Yoruba"</div>
+                </div>
+            </div>
+            <div class="panel-card tech-card">
+                <h3>⚙️ Tech Stack</h3>
+                <div class="tech-tags">
+                    <span class="tag">USSD</span>
+                    <span class="tag">Whisper ASR</span>
+                    <span class="tag">Hyperledger</span>
+                    <span class="tag">Coqui TTS</span>
+                    <span class="tag">Sentinel-2</span>
+                    <span class="tag">KaiOS</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>Voice to Value © 2026 — Empowering smallholder & disabled farmers through voice-first financial inclusion</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

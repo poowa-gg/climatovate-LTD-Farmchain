@@ -1,0 +1,16 @@
+# Git, Python, and OS generated files
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+.DS_Store
+Thumbs.db
+*.log
+
+# Large media/model files (unless specifically tracked)
+*.pt
+*.bin
+*.wav

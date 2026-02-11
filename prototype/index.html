@@ -17,17 +17,39 @@
 
     <!-- Header -->
     <header class="hero-header">
-        <div class="logo">
-            <span class="logo-icon">🌾</span>
-            <span class="logo-text">Voice <span class="accent">to</span> Value</span>
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">🌾</span>
+                <span class="logo-text">Voice <span class="accent">to</span> Value</span>
+            </div>
+            <p class="tagline">Financial Identity by Voice</p>
         </div>
-        <p class="tagline">Turn a farmer's voice into financial power</p>
     </header>
 
     <!-- Main Layout -->
     <main class="app-layout">
+        <!-- Mobile Bottom Nav -->
+        <nav class="mobile-nav" id="mobileNav">
+            <button class="nav-item active" data-tab="simulator">
+                <span class="nav-icon">📱</span>
+                <span class="nav-label">App</span>
+            </button>
+            <button class="nav-item" data-tab="journey">
+                <span class="nav-icon">📍</span>
+                <span class="nav-label">Path</span>
+            </button>
+            <button class="nav-item" data-tab="stats">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Stats</span>
+            </button>
+            <button class="nav-item" data-tab="logs">
+                <span class="nav-icon">📜</span>
+                <span class="nav-label">Logs</span>
+            </button>
+        </nav>
+
         <!-- Left Panel: Journey & Info -->
-        <aside class="info-panel">
+        <aside class="info-panel left-panel tab-content" id="tab-journey">
             <div class="panel-card journey-card">
                 <h3>📍 User Journey</h3>
                 <div class="journey-steps" id="journeySteps">
@@ -73,7 +95,7 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-card stats-card">
+            <div class="panel-card tab-content" id="tab-stats">
                 <h3>📊 Live Stats</h3>
                 <div class="stat-row">
                     <span class="stat-label">Language</span>
@@ -92,7 +114,7 @@
                     <span class="stat-value tx-hash" id="statTx">—</span>
                 </div>
             </div>
-            <div class="panel-card">
+            <div class="panel-card accessibility-card">
                 <h3>♿ Accessibility</h3>
                 <label class="toggle-row">
                     <span>Voice Output (TTS)</span>
@@ -113,7 +135,7 @@
         </aside>
 
         <!-- Center: Phone Simulator -->
-        <section class="phone-section">
+        <section class="phone-section tab-content active" id="tab-simulator">
             <div class="phone-frame">
                 <div class="phone-notch"></div>
                 <div class="phone-screen" id="phoneScreen">
@@ -531,14 +553,14 @@
         </section>
 
         <!-- Right Panel: Event Log -->
-        <aside class="info-panel right-panel">
+        <aside class="info-panel right-panel tab-content" id="tab-logs">
             <div class="panel-card log-card">
                 <h3>📜 Event Log</h3>
                 <div class="event-log" id="eventLog">
                     <div class="log-entry system">System initialized. Waiting for input...</div>
                 </div>
             </div>
-            <div class="panel-card">
+            <div class="panel-card voice-commands-card">
                 <h3>🌐 Voice Commands</h3>
                 <div class="voice-commands">
                     <div class="cmd">"Check my score"</div>

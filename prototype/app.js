@@ -198,6 +198,7 @@ function init() {
     bindVoice();
     bindControls();
     bindToggles();
+    bindMobileNav();
     log('system', 'Voice to Value USSD simulator ready.');
     log('system', 'Enter "1" or tap 🎙️ to begin.');
 }
@@ -344,7 +345,7 @@ function handleInput(screen, value) {
             break;
 
         case 'main':
-            if (['1', '2', '3', '4', '5', '6', '7', '0'].includes(value)) {
+            if (['1', '2', '3', '4', '5', '6', '7', '8', '0'].includes(value)) {
                 handleMainMenu(value);
             } else {
                 processNaturalLanguageCommand(value);
@@ -777,23 +778,29 @@ function startVoiceInput(context) {
         return;
     }
 
-    if (state.isListening) {
-        stopVoiceRecognition();
-        setTimeout(() => startVoiceInput(context), 100);
-        return;
-    }
-
     // Set language for recognition
     const langCodes = { en: 'en-US', ha: 'ha-NG', yo: 'yo-NG' };
     recognition.lang = langCodes[state.language] || 'en-US';
     state.voiceContext = context || state.currentScreen;
 
     try {
-        state.isListening = true;
-        recognition.start();
+        // IMPORTANT: We don't call start() if it's already listening
+        // or if it was just stop()ed (wait for onend). 
+        // But the common error is calling it while it's already active.
+        if (!state.isListening) {
+            state.isListening = true;
+            recognition.start();
+        } else {
+            log('voice', 'Voice already active, continuing...');
+        }
     } catch (e) {
-        state.isListening = false;
-        log('error', 'Voice start error: ' + e.message);
+        if (e.message.indexOf('already started') !== -1) {
+            // Silence this specific error as it's a non-issue
+            state.isListening = true;
+        } else {
+            state.isListening = false;
+            log('error', 'Voice start error: ' + e.message);
+        }
     }
 }
 
@@ -812,15 +819,32 @@ function handleVoiceCommand(transcript) {
 
     // If on register screen, treat as name
     if (state.voiceContext === 'register' || state.currentScreen === 'register') {
-        state.farmerName = capitalizeFirst(transcript);
+        // Robust name picking: Strip common intros
+        let name = transcript;
+        const intros = ['my name is', 'i am', 'call me', 'sunana', 'sunana ne', 'emi ni'];
+        intros.forEach(intro => {
+            if (name.startsWith(intro)) {
+                name = name.replace(intro, '').trim();
+            }
+        });
+
+        state.farmerName = capitalizeFirst(name);
         log('action', `Farmer name set: ${state.farmerName}`);
-        speak(`Welcome, ${state.farmerName}`);
+
+        const welcomeMsg = state.language === 'ha' ? `Barka da zuwa, ${state.farmerName}` :
+            state.language === 'yo' ? `Ẹ kú àbọ̀, ${state.farmerName}` :
+                `Welcome, ${state.farmerName}`;
+        speak(welcomeMsg);
 
         // Auto forward after a brief pause
         setTimeout(() => {
+            const L = LANG[state.language];
             document.getElementById('registerText').textContent = `Name captured: ${state.farmerName}`;
             // Flash success
-            if (voiceStatus) voiceStatus.style.color = 'var(--green-primary)';
+            if (voiceStatus) {
+                voiceStatus.style.color = 'var(--green-primary)';
+                voiceStatus.textContent = `Hello, ${state.farmerName}!`;
+            }
         }, 500);
         return;
     }
@@ -878,6 +902,8 @@ function processNaturalLanguageCommand(text) {
     } else if (lower.includes('rescue') || lower.includes('harvest') || lower.includes('sell') || lower.includes('rot') || lower.includes('spoil') || lower.includes('help') || lower.includes('sauke')) {
         navigateTo('rescue');
         speak(LANG[state.language].rescueTitle);
+    } else if (lower.includes('train') || lower.includes('guide') || lower.includes('learn') || lower === '8') {
+        startTraining();
     }
     // Crop Doctor Specific Symptoms (Text or Voice)
     else if (state.currentScreen === 'cropdoctor' || lower.includes('yellow') || lower.includes('spot') || lower.includes('pest') || lower.includes('wilt')) {
@@ -919,6 +945,32 @@ function speakAdvisory() {
     const L = LANG[state.language];
     speak(L.voiceAdvice);
     log('voice', 'Speaking farm advisory to farmer...');
+}
+
+// ---- Mobile Tab Navigation ----
+function bindMobileNav() {
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const targetTab = item.dataset.tab;
+
+            // Update nav UI
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+
+            // Update content visibility
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                if (content.id === `tab-${targetTab}`) {
+                    content.classList.add('active');
+                }
+            });
+
+            log('system', `Mobile View: Switched to ${targetTab}`);
+        });
+    });
 }
 
 // ---- Demo Mode ----

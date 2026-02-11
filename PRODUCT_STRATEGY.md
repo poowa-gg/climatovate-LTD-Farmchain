@@ -19,7 +19,7 @@
 
 ### Refined Value Proposition
 
-> **Voice to Value** turns a farmer's voice into a financial identity — building real-time, blockchain-verified credit scores from farming behavior, enabling zero-collateral microloans, and delivering prescriptive agronomic guidance — all through voice, in any local language, online or offline.
+> **Voice to Value** turns a farmer's voice into a financial identity — building real-time, blockchain-verified credit scores from farming behavior, enabling zero-collateral microloans, and delivering prescriptive agronomic guidance. **New:** Includes "Harvest Rescue", an offline "Uber for unsold crops" to eliminate post-harvest loss.
 
 ### What Makes This Different (Competitive Moat)
 
@@ -39,11 +39,13 @@ graph LR
 
 **Key differentiators vs. competitors (FarmCrowdy, Apollo Agriculture, Digifarm):**
 
-1. **Voice-native, not voice-added** — built ground-up for zero-literacy users
-2. **Self-sovereign credit identity** — farmers own their data on-chain, portable across lenders
+1. **Self-sovereign credit identity** — Not just a database; farmers *own* their data on-chain, portable across different banks and MFIs.
+2. **Voice-native, not voice-added** — built ground-up for zero-literacy users
+3. **Immutable Trust Layer** — Records cannot be erased by corrupt intermediaries, protecting the farmer's hard-earned history.
 3. **Prescriptive, not just descriptive** — tells farmers *what to do and when*, not just weather data
 4. **Disability-inclusive by design** — haptic feedback, audio-spatial UI, switch-access support
-5. **Offline-first architecture** — works with no connectivity, syncs opportunistically
+5. **Harvest Rescue (Sauke)** — Unique "panic button" feature to instantly find buyers for perishable crops
+6. **Offline-first architecture** — works with no connectivity, syncs opportunistically
 
 ---
 
@@ -155,9 +157,9 @@ flowchart TD
 
 | Decision | Rationale |
 |---|---|
+| **Immutable Credit Passport (Blockchain)** | Solves the "Vendor Lock-in" problem. Farmers aren't trapped in our app; they can take their verified history to *any* lender. |
 | **USSD as primary channel** | Works on any phone, zero data cost, 100% offline-capable |
-| **Hyperledger Fabric (not Ethereum)** | Permissioned chain = lower cost, faster, better for regulated finance |
-| **Whisper fine-tuned locally** | OpenAI Whisper has best base for low-resource language adaptation |
+| **Hyperledger Fabric** | Permissioned chain = zero gas fees, enterprise-grade privacy, and regulatory compliance. |
 | **Offline-first sync** | CRDTs (conflict-free replicated data types) for eventual consistency |
 | **KaiOS app** | 120M+ KaiOS devices in Africa; bridges feature-phone to smartphone gap |
 
@@ -296,6 +298,7 @@ flowchart TD
 | Zero-collateral loans | ✅ | Partial | ❌ | Partial |
 | Disability accessible | ✅ | ❌ | ❌ | ❌ |
 | Prescriptive farm AI | ✅ | ✅ | ❌ | Partial |
+| Harvest Rescue (Flash Sales) | ✅ | ❌ | ❌ | ❌ |
 | Offline mode | ✅ | ❌ | ❌ | ❌ |
 | Local language support (5+) | ✅ | ❌ | ❌ | ✅ |
 

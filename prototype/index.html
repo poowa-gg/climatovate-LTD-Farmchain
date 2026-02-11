@@ -61,7 +61,7 @@
                     </div>
                     <div class="step" data-step="blockchain">
                         <div class="step-dot"></div>
-                        <span>Blockchain ID</span>
+                        <span>Credit Passport</span>
                     </div>
                     <div class="step" data-step="cropdoctor">
                         <div class="step-dot"></div>
@@ -186,9 +186,10 @@
                                 <div class="ussd-option">1. 📊 Check Credit Score</div>
                                 <div class="ussd-option">2. 💰 Apply for Loan</div>
                                 <div class="ussd-option">3. 🌱 Farm Advisory</div>
-                                <div class="ussd-option">4. 🔗 View Blockchain ID</div>
+                                <div class="ussd-option">4. 🔗 Credit Passport</div>
                                 <div class="ussd-option">5. 🩺 Crop Doctor (AI)</div>
                                 <div class="ussd-option">6. 🌐 Trust Network</div>
+                                <div class="ussd-option">7. 🚨 Harvest Rescue</div>
                                 <div class="ussd-option">0. Exit</div>
                             </div>
                         </div>
@@ -331,7 +332,7 @@
                     <div class="ussd-screen" id="screen-blockchain">
                         <div class="ussd-header">USSD Service</div>
                         <div class="ussd-body">
-                            <p class="ussd-text">🔗 Your Blockchain Credit Identity</p>
+                            <p class="ussd-text">🔗 Your Immutable Credit Passport</p>
                             <div class="blockchain-display">
                                 <div class="chain-block" id="block1">
                                     <div class="block-header">Block #1</div>
@@ -446,6 +447,45 @@
                             <button class="ussd-send" data-screen="trustnet">Send</button>
                         </div>
                     </div>
+
+                    <!-- SCREEN: HARVEST RESCUE (Flash Sell) -->
+                    <div class="ussd-screen" id="screen-rescue">
+                        <div class="ussd-header">USSD Service</div>
+                        <div class="ussd-body">
+                            <p class="ussd-text" id="rescueTitle">🚨 Harvest Rescue</p>
+                            <p class="ussd-text" style="font-size:10px;opacity:0.7;margin-top:4px;">Sauke — Stop
+                                Harvest Loss</p>
+
+                            <div class="voice-indicator" id="voiceRescue"
+                                style="margin: 10px auto; width: 60px; height: 60px;">
+                                <div class="voice-ring"></div>
+                                <div class="voice-ring"></div>
+                                <span class="voice-icon" style="font-size: 24px;">📢</span>
+                            </div>
+                            <p class="ussd-text voice-status" id="rescueStatus">Tap & say: "My tomatoes are rotting"</p>
+
+                            <div class="rescue-deal" id="rescueDeal"
+                                style="display:none; margin-top:10px; padding:10px; background:rgba(255, 71, 87, 0.1); border:1px solid #ff4757; border-radius:8px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-size:20px;">🍅</span>
+                                    <span style="color:#ff4757; font-weight:bold;">MATCH FOUND!</span>
+                                </div>
+                                <p style="margin:8px 0; font-size:11px;">Buyer: <strong>Mama Nkechi (Market)</strong>
+                                </p>
+                                <p style="margin:4px 0; font-size:11px;">Offer: <strong>₦5,000 / basket</strong></p>
+                                <p style="margin:4px 0; font-size:10px; opacity:0.8;">(Pickup in 30 mins)</p>
+                            </div>
+
+                            <div class="ussd-options">
+                                <div class="ussd-option">0. Back to menu</div>
+                            </div>
+                        </div>
+                        <div class="ussd-input-area">
+                            <input type="text" class="ussd-input" placeholder="Describe crop..." data-screen="rescue"
+                                maxlength="30">
+                            <button class="ussd-send" data-screen="rescue">Send</button>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Voice FAB -->
@@ -480,7 +520,7 @@
                     <div class="cmd">"Check my score"</div>
                     <div class="cmd">"I want a loan"</div>
                     <div class="cmd">"Farm advice"</div>
-                    <div class="cmd">"Show my blockchain"</div>
+                    <div class="cmd">"Show my passport"</div>
                     <div class="cmd">"My crops are sick"</div>
                     <div class="cmd">"Trust network"</div>
                     <div class="cmd">"Go back"</div>

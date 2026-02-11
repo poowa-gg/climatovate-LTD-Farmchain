@@ -32,14 +32,14 @@ const LANG = {
         weatherAlert: 'Weather Alert',
         drySpell: 'Dry spell in 10 days',
         planHarvest: 'Plan harvest accordingly',
-        blockchainTitle: '🔗 Your Blockchain Credit Identity',
+        blockchainTitle: '🔗 Your Immutable Credit Passport',
         blockchainNote: 'Your credit history is immutable, portable, and owned by you.',
         back: 'Back to menu',
         exit: 'Exit',
         checkScore: '📊 Check Credit Score',
         applyLoan: '💰 Apply for Loan',
         farmAdvisory: '🌱 Farm Advisory',
-        viewBlockchain: '🔗 View Blockchain ID',
+        viewBlockchain: '🔗 View Credit Passport',
         settings: '⚙️ Settings',
         tapMic: 'Tap microphone to speak',
         listening: '🔴 Listening...',
@@ -52,6 +52,10 @@ const LANG = {
         trustNetSub: 'Your social collateral — who vouches for you',
         cropDoctorMenu: '🩺 Crop Doctor (AI)',
         trustNetMenu: '🌐 Trust Network',
+        rescueMenu: '🚨 Harvest Rescue',
+        rescueTitle: '🚨 Harvest Rescue',
+        rescueSub: 'Sauke — Stop Harvest Loss',
+        rescueTap: 'Tap & say: "My tomatoes are rotting"',
     },
     ha: {
         name: 'Hausa',
@@ -81,14 +85,14 @@ const LANG = {
         weatherAlert: 'Gargaɗin Yanayi',
         drySpell: 'Rani a cikin kwanaki 10',
         planHarvest: 'Shirya girbi daidai',
-        blockchainTitle: '🔗 Asalin Blockchain Ɗinku',
+        blockchainTitle: '🔗 Pasfọt Bashin Ku',
         blockchainNote: 'Tarihin bashinku ba za a iya canza shi ba, kuma na ku ne.',
         back: 'Komawa menu',
         exit: 'Fita',
         checkScore: '📊 Duba Makin Bashi',
         applyLoan: '💰 Nemi Bashi',
         farmAdvisory: '🌱 Shawarar Noma',
-        viewBlockchain: '🔗 Duba Blockchain ID',
+        viewBlockchain: '🔗 Duba Pasfọt Bashi',
         settings: '⚙️ Saituna',
         tapMic: 'Danna makirufo don magana',
         listening: '🔴 Ana saurara...',
@@ -101,6 +105,10 @@ const LANG = {
         trustNetSub: 'Amintattun ku — wa suka tabbatar da ku',
         cropDoctorMenu: '🩺 Likitan Amfanin Gona',
         trustNetMenu: '🌐 Cibiyar Amana',
+        rescueMenu: '🚨 Sauke (Harvest Rescue)',
+        rescueTitle: '🚨 Sauke - Harvest Rescue',
+        rescueSub: 'Tsaya asarar girbi',
+        rescueTap: 'Danna & ce: "Tumatir na yana lalacewa"',
     },
     yo: {
         name: 'Yoruba',
@@ -130,14 +138,14 @@ const LANG = {
         weatherAlert: 'Ìkìlọ̀ Ojú Ọjọ́',
         drySpell: 'Ọ̀gbẹlẹ̀ ní ọjọ́ 10',
         planHarvest: 'Gbèrò ìkórè rẹ',
-        blockchainTitle: '🔗 Ìdánimọ̀ Blockchain Rẹ',
+        blockchainTitle: '🔗 Ìdánimọ̀ Credit Passport Rẹ',
         blockchainNote: 'Ìtàn kírẹ́dítì rẹ kò lè yí padà, tìrẹ ni.',
         back: 'Padà sí àkójọ',
         exit: 'Jáde',
         checkScore: '📊 Wo Oṣùwọ̀n Kírẹ́dítì',
         applyLoan: '💰 Béèrè Awin',
         farmAdvisory: '🌱 Ìmọ̀ràn Oko',
-        viewBlockchain: '🔗 Wo Blockchain ID',
+        viewBlockchain: '🔗 Wo Credit Passport',
         settings: '⚙️ Ètò',
         tapMic: 'Tẹ makirofóònù láti sọ̀rọ̀',
         listening: '🔴 A ń gbọ́...',
@@ -150,6 +158,10 @@ const LANG = {
         trustNetSub: 'Àwọn tó ń jẹ́rìísí fún ọ',
         cropDoctorMenu: '🩺 Dọ́kítà Àmùgbà',
         trustNetMenu: '🌐 Nẹ́tíìdà Ìgbẹ́kẹ̀lé',
+        rescueMenu: '🚨 Harvest Rescue',
+        rescueTitle: '🚨 Harvest Rescue',
+        rescueSub: 'Stop Harvest Loss',
+        rescueTap: 'Tẹ & sọ: "Tòmátì mi ń bàjẹ́"',
     }
 };
 
@@ -395,6 +407,25 @@ function handleInput(screen, value) {
                 vouchForSomeone();
             }
             break;
+
+        case 'rescue':
+            if (value === '0') {
+                navigateTo('main');
+            } else if (value === '1') {
+                log('action', '🚨 Rescue Deal Accepted!');
+                speak('Deal accepted. Mama Nkechi is on her way to pickup.');
+                document.getElementById('rescueDeal').innerHTML = `
+                    <div style="text-align:center; color:#00ff88;">
+                        <span style="font-size:32px;">✅</span><br>
+                        <strong>SOLD!</strong><br>
+                        Driver inbound (8 mins)
+                    </div>
+                `;
+            } else if (value.length > 2) {
+                // Text description
+                runRescueMatch(value);
+            }
+            break;
     }
 }
 
@@ -442,6 +473,10 @@ function handleMainMenu(value) {
             initTrustNetwork();
             navigateTo('trustnet');
             break;
+        case '7':
+            speak(L.rescueMenu);
+            navigateTo('rescue');
+            break;
         case '0':
             navigateTo('welcome');
             break;
@@ -473,6 +508,7 @@ function updateMainMenu() {
         <div class="ussd-option">4. ${L.viewBlockchain}</div>
         <div class="ussd-option">5. ${L.cropDoctorMenu}</div>
         <div class="ussd-option">6. ${L.trustNetMenu}</div>
+        <div class="ussd-option">7. ${L.rescueMenu}</div>
         <div class="ussd-option">0. ${L.exit}</div>
     `;
 }
@@ -626,6 +662,9 @@ function bindVoice() {
                 document.getElementById('voiceStatus').textContent = LANG[state.language].listening;
             } else if (state.voiceContext === 'cropdoctor' && voiceCd) {
                 voiceCd.classList.add('listening');
+            } else if (state.voiceContext === 'rescue') {
+                const voiceRes = document.getElementById('voiceRescue');
+                if (voiceRes) voiceRes.classList.add('listening');
             }
         };
 
@@ -664,6 +703,8 @@ function bindVoice() {
             }
             const voiceCd = document.getElementById('voiceCropDoctor');
             if (voiceCd) voiceCd.classList.remove('listening');
+            const voiceRes = document.getElementById('voiceRescue');
+            if (voiceRes) voiceRes.classList.remove('listening');
         };
 
         recognition.onerror = (event) => {
@@ -813,6 +854,9 @@ function processNaturalLanguageCommand(text) {
         initTrustNetwork();
         navigateTo('trustnet');
         speak(LANG[state.language].trustNet);
+    } else if (lower.includes('rescue') || lower.includes('harvest') || lower.includes('sell') || lower.includes('rot') || lower.includes('spoil') || lower.includes('help') || lower.includes('sauke')) {
+        navigateTo('rescue');
+        speak(LANG[state.language].rescueTitle);
     }
     // Crop Doctor Specific Symptoms (Text or Voice)
     else if (state.currentScreen === 'cropdoctor' || lower.includes('yellow') || lower.includes('spot') || lower.includes('pest') || lower.includes('wilt')) {
@@ -825,7 +869,9 @@ function processNaturalLanguageCommand(text) {
         else if (lower.includes('brown') || lower.includes('spot') || lower.includes('circle')) runCropDiagnosis('2');
         else if (lower.includes('pest') || lower.includes('hole') || lower.includes('eat') || lower.includes('worm')) runCropDiagnosis('3');
         else if (lower.includes('wilt') || lower.includes('die') || lower.includes('dry')) runCropDiagnosis('4');
-        else log('system', `Symptom not recognized: "${text}"`);
+        else if (state.currentScreen === 'rescue') {
+            runRescueMatch(lower);
+        } else log('system', `Symptom not recognized: "${text}"`);
     } else {
         log('system', `Command not recognized: "${text}"`);
     }
@@ -1362,3 +1408,32 @@ function vouchForSomeone() {
 
 // ---- Boot ----
 document.addEventListener('DOMContentLoaded', init);
+
+// Bind Rescue Voice
+document.addEventListener('DOMContentLoaded', () => {
+    const voiceRes = document.getElementById('voiceRescue');
+    if (voiceRes) {
+        voiceRes.addEventListener('click', () => startVoiceInput('rescue'));
+    }
+});
+
+// Rescue Matching Simulation
+function runRescueMatch(query) {
+    log('action', `🚨 Rescue: Analyzing surplus "${query}"...`);
+    speak('Searching for buyers nearby... Found a match.');
+
+    const deal = document.getElementById('rescueDeal');
+    deal.style.display = 'block';
+    deal.classList.add('pop-in');
+
+    // Add option to Accept
+    const opts = document.querySelector('#screen-rescue .ussd-options');
+    opts.innerHTML = `
+        <div class="ussd-option">1. ✅ ACCEPT ₦5,000</div>
+        <div class="ussd-option">0. Cancel</div>
+    `;
+
+    if (state.hapticEnabled && navigator.vibrate) {
+        navigator.vibrate([200, 50, 200]);
+    }
+}

@@ -1,7 +1,7 @@
 # Voice to Value — Executive Summary
 
 ## What We Do
-Voice to Value is a voice-first agricultural finance platform that enables smallholder and disabled farmers to build blockchain-verified credit histories and access zero-collateral microloans — entirely through voice, in their local language, on any phone.
+Voice to Value is a voice-first agricultural finance platform that enables smallholder and disabled farmers to build an **Immutable Credit Passport**—a portable, blockchain-verified financial identity that they own—accessing zero-collateral microloans and the innovative **Harvest Rescue** flash-market, entirely through voice.
 
 ## The Problem
 1.7 billion adults remain unbanked. Smallholder farmers — who feed 80% of the developing world — are systematically excluded from financial services because they lack collateral, literacy, formal documentation, and smartphone access. Existing agri-fintech solutions are app-based, English-only, and inaccessible to disabled users. The result: a $170B annual credit gap for smallholder farmers in sub-Saharan Africa alone.
@@ -9,7 +9,8 @@ Voice to Value is a voice-first agricultural finance platform that enables small
 ## Our Solution
 - **Voice-native interface** — farmers interact by speaking in Hausa, Yoruba, Igbo, Twi, Swahili, or any supported language
 - **Behavioral credit scoring** — no credit bureau needed; scores built from planting compliance, input purchases, cooperative standing, and peer endorsements
-- **Blockchain identity** — credit history recorded on Hyperledger Fabric, owned by the farmer, portable across lenders
+- **Credit Passport (Blockchain)** — A verified credit identity on Hyperledger Fabric, owned by the farmer and portable to any lender. Unlike traditional systems, we solve "vendor lock-in."
+- **Harvest Rescue (Flash Sell)** — A "panic button" for perishables. Instant market matching for rotting crops ensures farmers recover 90% of value even when logistics fail.
 - **Zero-collateral microloans** — disbursed to mobile wallets in <24 hours
 - **Prescriptive farming AI** — personalized alerts on when to plant, irrigate, and harvest based on satellite weather data
 - **Offline-first** — full functionality on USSD (any phone), with sync when connectivity returns

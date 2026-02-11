@@ -25,8 +25,9 @@
 - Voice-first agricultural finance platform
 - Speak in your language → get a credit score → receive a loan → get farming advice
 - Works on **any phone** (USSD, KaiOS, Android)
-- **Offline-first** — syncs when connectivity returns
-- Blockchain-verified credit identity owned by the farmer
+- **Credit Passport** — A blockchain-verified identity that the farmer OWN and can take to any bank.
+- **Harvest Rescue** — "Panic button" to sell perishable crops instantly
+- **Offline-first** — No internet? No problem. Voice works via USSD.
 
 ---
 
@@ -44,8 +45,8 @@ Farmer speaks → ASR (speech-to-text) → Intent understood →
 ## Slide 5: Credit Scoring Innovation (1 min)
 - No credit bureau needed
 - Score built from: planting behavior, input purchases, cooperative standing, peer endorsements, repayment history
-- All recorded on Hyperledger Fabric — portable, immutable, farmer-owned
-- Graduated trust: start small ($20), grow with good behavior
+- All recorded on Hyperledger Fabric — making the farmer the **sole owner** of their credit data.
+- **Winning Narrative:** This isn't just a loan; it's a **Passport to the Global Economy**. Even if they stop using our app, their history remains theirs.
 
 ---
 
@@ -55,6 +56,7 @@ Farmer speaks → ASR (speech-to-text) → Intent understood →
 - Haptic feedback (vibration patterns)
 - Audio-spatial navigation
 - Women-specific features (private profiles, cooperative tools)
+- **"Harvest Rescue" (Sauke)** — Instant market matching for rotting crops
 - **Demo moment:** show the visually-impaired user flow
 
 ---
@@ -107,4 +109,5 @@ Farmer speaks → ASR (speech-to-text) → Intent understood →
 - [ ] Show blockchain credit record being created
 - [ ] Show prescriptive farming alert ("Plant millet in 3 days — rains expected")
 - [ ] Demonstrate offline mode (turn off Wi-Fi mid-demo)
+- [ ] Demonstration of "Harvest Rescue" (selling rotting tomatoes instantly)
 - [ ] Show accessibility flow (screen reader / haptic mode)

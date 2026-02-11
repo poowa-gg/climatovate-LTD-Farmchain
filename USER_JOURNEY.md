@@ -64,7 +64,9 @@ flowchart TD
         E1["Week 2: Voice alert\n'Plant millet in 3 days,\nrain expected'"]
         E2["Week 6: 'Irrigate cowpea,\nsoil moisture is low'"]
         E3["Week 14: 'Harvest in\n5 days — dry spell coming'"]
-        E4["Amina follows advice\nyield increases 30%"]
+        E4["🚨 CRISIS: Transport breaks down\ntomatoes start rotting"]
+        E5["Amina uses 'Harvest Rescue'\nMatches with local buyer\nSaves 90% of value"]
+        E6["Amina follows advice\nyield increases 30%"]
     end
 
     subgraph "💳 REPAYMENT"
@@ -83,8 +85,8 @@ flowchart TD
     B1 --> B2 --> B3 --> B4
     B4 --> C1 --> C2 --> C3
     C3 --> D1 --> D2 --> D3 --> D4 --> D5
-    D5 --> E1 --> E2 --> E3 --> E4
-    E4 --> F1 --> F2 --> F3
+    D5 --> E1 --> E2 --> E3 --> E4 --> E5 --> E6
+    E6 --> F1 --> F2 --> F3
     F3 --> G1 --> G2 --> G3
 ```
 
@@ -110,7 +112,8 @@ flowchart TD
 | Loan confirmation | Voice + SMS receipt | Dual-channel backup |
 | Farm alerts | Voice call + USSD push | Proactive, scheduled |
 | Repayment | OPay agent point | Cash or mobile money |
-| Blockchain ID | USSD query | Voice readout of record |
+| Repayment | OPay agent point | Cash or mobile money |
+| **Credit Passport** | USSD query | Voice readout of their immutable on-chain record |
 
 ---
 
@@ -173,8 +176,8 @@ flowchart TD
 | **Audio-spatial navigation** | Swipe left/right to move between menu items; hears position ("Item 2 of 5") |
 | **Voiceprint login** | No passwords or PINs — his voice is his identity |
 | **Haptic patterns** | 1 short = success, 2 long = money sent, 3 short = error |
-| **Speed control** | System adapts speech rate to Kofi's preferred pace |
-| **Audio receipts** | All financial details are spoken, not just displayed |
+| **Adaptive speed control** | System adapts speech rate to Kofi's preferred pace |
+| **Credit Passport Ownership** | Kofi owns his data; his identity moves with him to any service provider |
 | **Switch access** | Can use a single physical button if touchscreen is difficult |
 
 ---

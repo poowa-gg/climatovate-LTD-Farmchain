@@ -344,7 +344,7 @@ function handleInput(screen, value) {
             break;
 
         case 'main':
-            if (['1', '2', '3', '4', '5', '6', '0'].includes(value)) {
+            if (['1', '2', '3', '4', '5', '6', '7', '0'].includes(value)) {
                 handleMainMenu(value);
             } else {
                 processNaturalLanguageCommand(value);

@@ -440,6 +440,8 @@ function handleLanguageSelect(value) {
         speak(L.registerPrompt);
         updateRegisterScreen();
         navigateTo('register');
+        // Activate mic immediately for registration
+        setTimeout(() => startVoiceInput('register'), 500);
     }
 }
 
@@ -642,6 +644,18 @@ function processLoan() {
 let recognition = null;
 let voiceErrorCount = 0;
 
+function stopVoiceRecognition() {
+    if (recognition && state.isListening) {
+        try {
+            recognition.stop();
+            state.isListening = false;
+            log('voice', 'Microphone stopped.');
+        } catch (e) {
+            console.error('Error stopping recognition:', e);
+        }
+    }
+}
+
 function bindVoice() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (SpeechRecognition) {
@@ -754,7 +768,8 @@ function startVoiceInput(context) {
     }
 
     if (state.isListening) {
-        log('voice', 'Already listening...');
+        stopVoiceRecognition();
+        setTimeout(() => startVoiceInput(context), 100);
         return;
     }
 
@@ -764,15 +779,11 @@ function startVoiceInput(context) {
     state.voiceContext = context || state.currentScreen;
 
     try {
-        state.isListening = true; // Set flag immediately to prevent double-start
+        state.isListening = true;
         recognition.start();
     } catch (e) {
         state.isListening = false;
         log('error', 'Voice start error: ' + e.message);
-        if (e.message.includes('already started')) {
-            // It's actually fine, we are listening
-            state.isListening = true;
-        }
     }
 }
 
@@ -1418,18 +1429,51 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Rescue Matching Simulation
+const RESCUE_CROPS = {
+    'tomato': { icon: '🍅', buyer: 'Mama Nkechi (Market)', price: '₦5,000 / basket' },
+    'maize': { icon: '🌽', buyer: 'Agro-Central Ltd', price: '₦12,000 / bag' },
+    'rice': { icon: '🍚', buyer: 'Kebbi Rice Millers', price: '₦35,000 / bag' },
+    'yam': { icon: '🍠', buyer: 'Wuse Market Coop', price: '₦2,500 / tuber' },
+    'cassava': { icon: '🌿', buyer: 'Gari Processors Inc', price: '₦15,000 / pickup' },
+    'beans': { icon: '🫘', buyer: 'Northern Grain Hub', price: '₦22,000 / bag' },
+    'pepper': { icon: '🌶️', buyer: 'Fresh Veggies Group', price: '₦4,000 / crate' },
+    'ginger': { icon: '🫚', buyer: 'Global Spice Exporters', price: '₦18,000 / bag' },
+    'onion': { icon: '🧅', buyer: 'Zaria Onion Dealers', price: '₦8,000 / bag' },
+    'cocoa': { icon: '🍫', buyer: 'Ondo Cocoa Union', price: '₦120,000 / bag' },
+    'cashew': { icon: '🥜', buyer: 'Coastal Nut Processors', price: '₦45,000 / bag' }
+};
+
 function runRescueMatch(query) {
     log('action', `🚨 Rescue: Analyzing surplus "${query}"...`);
-    speak('Searching for buyers nearby... Found a match.');
+
+    let match = RESCUE_CROPS['tomato']; // Default
+    for (const key in RESCUE_CROPS) {
+        if (query.toLowerCase().includes(key)) {
+            match = RESCUE_CROPS[key];
+            break;
+        }
+    }
+
+    speak(`Searching for buyers nearby... Found a match for ${query}.`);
 
     const deal = document.getElementById('rescueDeal');
     deal.style.display = 'block';
     deal.classList.add('pop-in');
 
+    deal.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:20px;">${match.icon}</span>
+            <span style="color:#ff4757; font-weight:bold;">MATCH FOUND!</span>
+        </div>
+        <p style="margin:8px 0; font-size:11px;">Buyer: <strong>${match.buyer}</strong></p>
+        <p style="margin:4px 0; font-size:11px;">Offer: <strong>${match.price}</strong></p>
+        <p style="margin:4px 0; font-size:10px; opacity:0.8;">(Pickup in 30 mins)</p>
+    `;
+
     // Add option to Accept
     const opts = document.querySelector('#screen-rescue .ussd-options');
     opts.innerHTML = `
-        <div class="ussd-option">1. ✅ ACCEPT ₦5,000</div>
+        <div class="ussd-option">1. ✅ ACCEPT ${match.price.split(' ')[0]}</div>
         <div class="ussd-option">0. Cancel</div>
     `;
 

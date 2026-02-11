@@ -426,6 +426,14 @@ function handleInput(screen, value) {
                 runRescueMatch(value);
             }
             break;
+
+        case 'training':
+            if (value === '0') {
+                navigateTo('main');
+            } else if (value === '1') {
+                nextTrainingStep();
+            }
+            break;
     }
 }
 
@@ -440,8 +448,6 @@ function handleLanguageSelect(value) {
         speak(L.registerPrompt);
         updateRegisterScreen();
         navigateTo('register');
-        // Activate mic immediately for registration
-        setTimeout(() => startVoiceInput('register'), 500);
     }
 }
 
@@ -479,6 +485,9 @@ function handleMainMenu(value) {
             speak(L.rescueMenu);
             navigateTo('rescue');
             break;
+        case '8':
+            startTraining();
+            break;
         case '0':
             navigateTo('welcome');
             break;
@@ -511,6 +520,7 @@ function updateMainMenu() {
         <div class="ussd-option">5. ${L.cropDoctorMenu}</div>
         <div class="ussd-option">6. ${L.trustNetMenu}</div>
         <div class="ussd-option">7. ${L.rescueMenu}</div>
+        <div class="ussd-option">8. 🎓 Training Guide</div>
         <div class="ussd-option">0. ${L.exit}</div>
     `;
 }
@@ -1480,4 +1490,61 @@ function runRescueMatch(query) {
     if (state.hapticEnabled && navigator.vibrate) {
         navigator.vibrate([200, 50, 200]);
     }
+}
+
+// ======================================================
+//  FEATURE 4: RURAL LITERACY TRAINING
+// ======================================================
+
+const TRAINING_STEPS = [
+    {
+        icon: '🎙️',
+        instr: 'Step 1: The Microphone. When you see the red ring pulsing, the phone is listening to you. Just speak normally.',
+        voice: 'Welcome to the training. Step 1: Look for the microphone icon. When it pulses red, the phone is listening. You can speak your name or your crop issues.'
+    },
+    {
+        icon: '📱',
+        instr: 'Step 2: USSD Menu. This looks like a simple text box. You can press numbers like 1, 2, or 3 to choose options.',
+        voice: 'Step 2: The menu. You can press numbers on your keypad to choose options, just like a regular USSD code'
+    },
+    {
+        icon: '🏥',
+        instr: 'Step 3: Crop Doctor. Say "My plants are yellow" to get AI help. It will tell you what medicine to use.',
+        voice: 'Step 4: Crop Doctor. You can say: My plants are yellow, to get help from the AI doctor.'
+    },
+    {
+        icon: '🚨',
+        instr: 'Step 4: Harvest Rescue. If your crops are rotting, say "Help, my tomatoes are spoiling" to find a buyer fast.',
+        voice: 'Step 5: Harvest Rescue. If your crops are spoiling, speak it out loud to find a buyer immediately.'
+    }
+];
+
+let currentTrainingStep = 0;
+
+function startTraining() {
+    currentTrainingStep = 0;
+    navigateTo('training');
+    updateTrainingUI();
+    log('system', '🎓 Starting Farmer Training Guide...');
+}
+
+function nextTrainingStep() {
+    currentTrainingStep++;
+    if (currentTrainingStep >= TRAINING_STEPS.length) {
+        speak('Training complete! You are now a master farmer.');
+        navigateTo('main');
+    } else {
+        updateTrainingUI();
+    }
+}
+
+function updateTrainingUI() {
+    const step = TRAINING_STEPS[currentTrainingStep];
+    const card = document.getElementById('trainStep1'); // Reusing the same card element
+    if (card) {
+        card.querySelector('.train-icon').textContent = step.icon;
+        card.querySelector('.train-instr').textContent = step.instr;
+    }
+    speak(step.voice);
+    log('action', `Training Step ${currentTrainingStep + 1}: ${step.instr}`);
 }

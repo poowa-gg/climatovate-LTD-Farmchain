@@ -1414,12 +1414,41 @@ body.high-contrast .ussd-option {
     .app-layout {
         flex-direction: column;
         align-items: center;
-        gap: 16px;
+        gap: 24px;
+        padding: 8px;
     }
 
     .info-panel {
         max-width: 100%;
         width: 100%;
+        order: 2;
+        /* Move info panels below phone on mobile */
+    }
+
+    .phone-section {
+        order: 1;
+        /* Phone at the top */
+        width: 100%;
+    }
+
+    .phone-frame {
+        width: 95vw;
+        max-width: 360px;
+        height: 75vh;
+        /* Responsive height */
+        margin: 0 auto;
+        border: 2px solid var(--green-primary);
+        box-shadow: 0 0 20px var(--green-glow);
+    }
+}
+
+@media (max-width: 500px) {
+    .phone-frame {
+        height: 80vh;
+    }
+
+    .hero-header {
+        padding: 12px 0;
     }
 }
 
@@ -1456,5 +1485,46 @@ body.high-contrast .ussd-option {
 
     .phone-controls {
         display: none;
+    }
+}
+
+/* --- Training Module --- */
+.training-stepper {
+    margin: 15px 0;
+}
+
+.training-card {
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid var(--green-primary);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    animation: popIn 0.4s ease-out;
+}
+
+.train-icon {
+    font-size: 40px;
+    color: var(--green-primary);
+}
+
+.train-instr {
+    color: var(--green-primary);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
